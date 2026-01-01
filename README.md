@@ -140,14 +140,7 @@
 
 [Ppt link ](https://www.canva.com/design/DAE-ta5Dv4I/MxYE77t1ew7IWtPklbFgmQ/view?utm_content=DAE-ta5Dv4I&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-## Contributors
 
-Team Name: Many Mavericks
-
-- [Deepesh Rathi](https://github.com/mrpirated)
-- [Aditya Darji](https://github.com/aditya-darji)
-- [Prateek Gupta](https://github.com/Prat2404)
-- [Abhishek Keshri](https://github.com/abhikeshri10)
 
 ### Made at:
 <a href="https://hack36.com"> <img src="https://cutt.ly/BuiltAtHack36" height=24px> </a>
