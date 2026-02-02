@@ -22,17 +22,18 @@ const addNewUser = async (user) => {
 		pool.getConnection((err, connection) => {
 			if (err) {
 				reject({ success: false, message: "Error In connection", error: err });
+				return;
 			}
 			connection.query(
 				"INSERT INTO ?? set ?",
 				[user.type, values],
 				(err, result) => {
+					connection.release();
 					if (err) {
 						reject({ success: false, message: err });
 					} else resolve({ success: true, message: result, user: user });
 				}
 			);
-			connection.release();
 		});
 	});
 };

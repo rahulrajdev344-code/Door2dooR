@@ -41,7 +41,7 @@ const signupService = async (user) => {
 			.then((response) => {
 				debug(response);
 				user.password = hashPassword(user.password);
-				if (response == "approved") {
+				if (response == "approved" || (response && response.status == "approved")) {
 					return user;
 				}
 				return Promise.reject({ success: false, message: "Invalid OTP" });

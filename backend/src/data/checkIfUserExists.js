@@ -7,11 +7,13 @@ const checkIfUserExists = ({ type, phone }) => {
 		pool.getConnection((err, connection) => {
 			if (err) {
 				reject({ success: false, message: "Error In connection", error: err });
+				return;
 			}
 			connection.query(
 				"SELECT * FROM ?? WHERE phone = ?",
 				[type, phone],
 				(err, result) => {
+					connection.release();
 					if (err) {
 						debug(err);
 						reject({ success: false, message: err });
@@ -28,7 +30,6 @@ const checkIfUserExists = ({ type, phone }) => {
 					}
 				}
 			);
-			connection.release();
 		});
 	});
 };
