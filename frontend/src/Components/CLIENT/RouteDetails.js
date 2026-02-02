@@ -13,8 +13,14 @@ import moment from "moment";
 function RouteDetails(props) {
 	const auth = useSelector((state) => state.auth);
 	const location = useLocation();
+
+	// Safety check to prevent crash on refresh
+	if (!location.state || !location.state.data) {
+		return <div className="p-4 text-center">No route data available. Please search again.</div>;
+	}
+
 	const routeDetails = location.state.data[location.state.idx - 1];
-	const markers = location.state.markersGrp[location.state.idx - 1];
+	const markers = location.state.markersGrp[location.state.idx - 1] || [];
 	const dispatch = useDispatch();
 	const [tableData, setTableData] = useState([]);
 
@@ -43,8 +49,8 @@ function RouteDetails(props) {
 				routeDetails[i].type === 0
 					? "Train"
 					: routeDetails[i].type === 1
-					? "Flight"
-					: "Roadways";
+						? "Flight"
+						: "Roadways";
 			tempRow["distance"] = routeDetails[i].distance + "km";
 			tempRow["duration"] = routeDetails[i].duration;
 			tempRow["time"] = routeDetails[i].time;
