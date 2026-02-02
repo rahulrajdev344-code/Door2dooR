@@ -13,7 +13,7 @@ const config = {
 	ADMIN: "admin",
 	bookRoute: "/bookRoute",
 	trackRoute: "/trackRoute",
-	pincodeurl: `https://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_POSITION_STACK_KEY || "b108873b531f412bee73c342a818d23e"}&query=`,
+	pincodeurl: `https://nominatim.openstreetmap.org/search?format=json&q=`,
 	findFastestRoute: "/findFastestRoute",
 	pintocityurl: "https://api.postalpincode.in/pincode/",
 };
