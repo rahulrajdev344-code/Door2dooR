@@ -11,6 +11,7 @@ import bookRoute from "./routes/bookRoute";
 import findFastestRoute from "./routes/findFastestRoute";
 import trackRoute from "./routes/trackRoute";
 import token from "./routes/token";
+import seed from "./routes/seed";
 const debug = dbg("http");
 const app = express();
 const { json } = express;
