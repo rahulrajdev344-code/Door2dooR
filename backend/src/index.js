@@ -29,7 +29,8 @@ app.use(
 	findFastestRoute,
 	bookRoute,
 	token,
-	trackRoute
+	trackRoute,
+	seed
 );
 const server = http.createServer(app);
 server.listen(config.PORT, config.HOST_NAME, () => {
