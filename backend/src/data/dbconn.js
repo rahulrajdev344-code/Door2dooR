@@ -9,6 +9,7 @@ const pool = mysql.createPool({
 	port: config.RDS_PORT,
 	database: config.RDS_DB_NAME,
 	connectionLimit: 10,
+	ssl: { rejectUnauthorized: false }
 });
 debug("mysql pool created");
 pool.on("connection", function (connection) {
