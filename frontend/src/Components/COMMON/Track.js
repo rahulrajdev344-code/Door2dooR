@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { alertAdded, alertRemoved } from "../../store/alert";
 import { useDispatch, useSelector } from "react-redux";
 import Reactmap from "../CLIENT/Reactmap";
 import trackRoutesAPI from "../../api/CLIENT/trackRoutesAPI";
 import DataTable from "./DataTable";
 import TrackColumn from "./TrackColumn";
+import { useLocation } from "react-router";
 
 const temp = [
 	{
@@ -29,56 +30,47 @@ function Track() {
 	const auth = useSelector((state) => state.auth);
 	const [trackID, setTrackID] = useState("");
 	const dispatch = useDispatch();
-  const [tableData, setTableData] = useState([])
+	const [tableData, setTableData] = useState([]);
+	const location = useLocation();
+
 	const validateForm = () => {
 		return trackID.length > 0;
 	};
 
 	const [markers, setMarkers] = useState(temp);
 
+	const fetchTrackData = (id) => {
+		trackRoutesAPI({
+			token: auth.token,
+			track_id: id,
+		}).then((res) => {
+			console.log(res.data.trackRoute);
+			var tempData = [];
+			if (res.data.trackRoute) {
+				for (var i = 0; i < res.data.trackRoute.length; i++) {
+					var tempRow = {};
+					tempRow["srno"] = res.data.trackRoute[i]["pos"];
+					tempRow["trackID"] = res.data.trackRoute[i]["track_id"];
+					tempRow["src_pincode"] = res.data.trackRoute[i]["src_pincode"];
+					tempRow["dest_pincode"] = res.data.trackRoute[i]["dest_pincode"];
+					tempRow["distance"] = res.data.trackRoute[i]["distance"] + "km";
+					tempRow["duration"] = res.data.trackRoute[i]["duration"] + "min";
+					tempRow["time"] = res.data.trackRoute[i]["time"] + "min";
+					tempRow["type"] = res.data.trackRoute[i]["type"];
+					tempRow["cost"] = res.data.trackRoute[i]["cost"];
+
+					tempData.push(tempRow);
+				}
+				console.log(tempData);
+				setTableData(tempData);
+			}
+		});
+	}
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (validateForm()) {
-			trackRoutesAPI({
-				token: auth.token,
-				track_id: trackID,
-			}).then((res) => {
-				console.log(res.data.trackRoute);
-        var tempData = [];
-        for(var i = 0; i < res.data.trackRoute.length; i++) {
-          var tempRow = {};
-          tempRow["srno"] = res.data.trackRoute[i]["pos"];
-          tempRow["trackID"] = res.data.trackRoute[i]["track_id"];
-          tempRow["src_pincode"] = res.data.trackRoute[i]["src_pincode"];
-          tempRow["dest_pincode"] = res.data.trackRoute[i]["dest_pincode"];
-          tempRow["distance"] = res.data.trackRoute[i]["distance"] + "km";
-          tempRow["duration"] = res.data.trackRoute[i]["duration"] + "min";
-          tempRow["time"] = res.data.trackRoute[i]["time"] + "min";
-          tempRow["type"] = res.data.trackRoute[i]["type"];
-          tempRow["cost"] = res.data.trackRoute[i]["cost"];
-
-          tempData.push(tempRow);
-        }
-        console.log(tempData);
-        setTableData(tempData);
-				// setMarkers([
-				// 	{
-				// 		anchorLat: res.data.lat,
-				// 		anchorLong: res.data.long,
-				// 	},
-				// ]);
-			});
-			// trackOrderAPI({
-			//     trackID
-			// }).then((res) => {
-			//     console.log(res);
-			//     if (res.success) {
-
-			//         // history.push("/home");
-			//     } else {
-			//         alert(res.data.msg);
-			//     }
-			// });
+			fetchTrackData(trackID);
 		} else {
 			dispatch(
 				alertAdded({
@@ -88,6 +80,14 @@ function Track() {
 			);
 		}
 	};
+
+	useEffect(() => {
+		if (location.state && location.state.rowData && location.state.rowData.courierId) {
+			const id = location.state.rowData.courierId;
+			setTrackID(id);
+			fetchTrackData(id);
+		}
+	}, [location.state]);
 
 	return (
 		<div>
@@ -103,7 +103,7 @@ function Track() {
 					Submit
 				</button>
 			</div>
-      <DataTable
+			<DataTable
 				columns={TrackColumn}
 				data={tableData}
 			/>

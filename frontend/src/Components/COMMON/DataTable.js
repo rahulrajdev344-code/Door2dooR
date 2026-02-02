@@ -43,6 +43,7 @@ export default function DataTable(props) {
 														data: props.resData,
 														markersGrp: props.markersGrp,
 														idx: d.srno,
+														rowData: d
 													},
 												});
 											}}
