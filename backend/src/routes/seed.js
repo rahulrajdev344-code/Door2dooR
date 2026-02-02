@@ -5,15 +5,15 @@ import pool from "../data/dbconn";
 router.get("/seed", async (req, res) => {
     const queries = [
         "SET FOREIGN_KEY_CHECKS = 0;",
-        "TRUNCATE TABLE railStation;",
-        "TRUNCATE TABLE airport;",
-        "TRUNCATE TABLE train;",
-        "TRUNCATE TABLE flight;",
+        "DROP TABLE IF EXISTS trackRoute;",
+        "DROP TABLE IF EXISTS track;",
         "TRUNCATE TABLE trainSchedule;",
         "TRUNCATE TABLE flightSchedule;",
         "TRUNCATE TABLE edges;",
-        "DROP TABLE IF EXISTS trackRoute;",
-        "DROP TABLE IF EXISTS track;",
+        "TRUNCATE TABLE train;",
+        "TRUNCATE TABLE flight;",
+        "TRUNCATE TABLE railStation;",
+        "TRUNCATE TABLE airport;",
 
         `CREATE TABLE track (
             track_id VARCHAR(255) PRIMARY KEY,
