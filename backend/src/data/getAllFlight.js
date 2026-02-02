@@ -10,9 +10,9 @@ const getAllFlight = () => {
 			}
 			connection.query(
 				"SELECT e.*, fs.arrival,fs.departure,fs.distance, fs.pos,fs.day,ar.pincode as src_pincode,ar2.pincode as dest_pincode FROM edges e\
-                JOIN flightSchedule fs ON e.source=fs.code AND fs.num=e.num\
-                JOIN airport ar ON e.source = ar.code\
-                JOIN airport ar2 ON e.destination = ar2.code\
+                JOIN flightSchedule fs ON e.src=fs.code AND fs.num=e.num\
+                JOIN airport ar ON e.src = ar.code\
+                JOIN airport ar2 ON e.dest = ar2.code\
                 ",
 				(err, result) => {
 					if (err) {
