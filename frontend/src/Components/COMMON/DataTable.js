@@ -25,20 +25,32 @@ export default function DataTable(props) {
 								{Object.keys(d).map(function (key, index) {
 									return <td>{d[key]}</td>;
 								})}
-                                <td>
-									<Button
-										block
-										variant='dark'
-										size='sm'
-										type='submit'
-										id={idx}
-										onClick={(e) => {
-											navigate(props.onclicklink, { state: { source: d.source, destination: d.destination, cost: d.cost, duration: d.duration, data: props.resData, markersGrp: props.markersGrp, idx:d.srno}});
-										}}
-									>
-										+
-									</Button>
-								</td>
+								{props.onclicklink && (
+									<td>
+										<Button
+											block
+											variant='dark'
+											size='sm'
+											type='submit'
+											id={idx}
+											onClick={(e) => {
+												navigate(props.onclicklink, {
+													state: {
+														source: d.source,
+														destination: d.destination,
+														cost: d.cost,
+														duration: d.duration,
+														data: props.resData,
+														markersGrp: props.markersGrp,
+														idx: d.srno,
+													},
+												});
+											}}
+										>
+											+
+										</Button>
+									</td>
+								)}
 							</tr>
 						);
 					})}
