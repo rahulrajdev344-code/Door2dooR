@@ -20,7 +20,7 @@ function LoginComponent(props) {
 	function validateForm() {
 		return phone.length > 0 && password.length > 0;
 	}
-    function handleSubmit(event) {
+	function handleSubmit(event) {
 		event.preventDefault();
 		loginAPI({
 			phone: phone,
@@ -46,8 +46,8 @@ function LoginComponent(props) {
 		});
 	}
 
-    return (
-        <div
+	return (
+		<div
 			id='loginform'
 			onClick={() => {
 				dispatch(alertRemoved());
@@ -55,9 +55,9 @@ function LoginComponent(props) {
 		>
 			<div id='left'>
 				<img
-					style={{ height: "120%", width: "100%", margin: "auto" }}
-					// src={props.doctorLogo}
-					alt={"logistic_logo"}
+					style={{ height: "100%", width: "100%", objectFit: "cover", borderRadius: "8px 0 0 8px" }}
+					src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+					alt="Logistics Cover"
 				/>
 			</div>
 			<div id='right'>
@@ -97,7 +97,7 @@ function LoginComponent(props) {
 				</Form>
 			</div>
 		</div>
-    )
+	)
 }
 
 export default LoginComponent;
