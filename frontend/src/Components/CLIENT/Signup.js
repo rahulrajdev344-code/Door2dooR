@@ -163,36 +163,39 @@ function Signup(props) {
                   Get OTP
                 </button>
               </div>
-              <Modal show={openPopup} onHide={handleClose}>
-                <Modal.Header closeButton className='modal-header'>
-                  <Modal.Title>Enter OTP</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className='modal-body'>
-                  <div className='row'>
-                    <label style={{ color: "black", fontSize: "30px" }}>
-                      Enter OTP
-                    </label>
+              {openPopup && (
+                <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", backgroundColor: "white", padding: "2rem", border: "1px solid #ccc", borderRadius: "8px", zIndex: 1000, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}>
+                  <h3>Enter OTP</h3>
+                  <div className='row' style={{ margin: "1rem 0" }}>
                     <input
                       type='text'
                       value={code}
                       onChange={(e) => setCode(e.target.value)}
+                      placeholder="Enter OTP"
+                      style={{ padding: "0.5rem", width: "100%" }}
                     />
                   </div>
                   <div className='row'>
-                    <label style={{ color: "black" }}>
+                    <label style={{ color: "black", marginBottom: "1rem" }}>
                       OTP sent to phone number {phone}
                     </label>
                   </div>
-                  <div id='button' class='row'>
+                  <div className='d-flex gap-2 justify-content-center'>
                     <button
-                      style={{ width: "45%", fontSize: "15px" }}
+                      className="btn btn-primary"
                       onClick={handleOTPSubmit}
                     >
                       Submit
                     </button>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={handleClose}
+                    >
+                      Close
+                    </button>
                   </div>
-                </Modal.Body>
-              </Modal>
+                </div>
+              )}
               {/* <Button block size='lg' type='submit' disabled={!validateForm()}>
                 Submit
               </Button> */}
