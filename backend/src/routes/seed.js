@@ -12,6 +12,32 @@ router.get("/seed", async (req, res) => {
         "TRUNCATE TABLE trainSchedule;",
         "TRUNCATE TABLE flightSchedule;",
         "TRUNCATE TABLE edges;",
+        "DROP TABLE IF EXISTS trackRoute;",
+        "DROP TABLE IF EXISTS track;",
+
+        `CREATE TABLE track (
+            track_id VARCHAR(255) PRIMARY KEY,
+            client_id INT,
+            src_pincode VARCHAR(20),
+            dest_pincode VARCHAR(20),
+            status VARCHAR(50) DEFAULT 'pending',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`,
+
+        `CREATE TABLE trackRoute (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            track_id VARCHAR(255),
+            pos INT,
+            type INT,
+            distance DECIMAL(10,2),
+            duration DECIMAL(10,2),
+            time DECIMAL(10,2),
+            cost DECIMAL(10,2),
+            src_pincode VARCHAR(20),
+            dest_pincode VARCHAR(20),
+            FOREIGN KEY (track_id) REFERENCES track(track_id) ON DELETE CASCADE
+        );`,
+
         "SET FOREIGN_KEY_CHECKS = 1;",
 
         `INSERT INTO railStation (code, name, pincode, lat, lng) VALUES
