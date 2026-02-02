@@ -30,7 +30,8 @@ function FindRoute() {
 
 	const getCoordinates = async (pincode) => {
 		try {
-			const res = await axios.get(config.pincodeurl + pincode + ", India");
+			const query = encodeURIComponent(pincode + ", India");
+			const res = await axios.get(config.pincodeurl + query);
 			if (res.data && res.data.data && res.data.data.length > 0) {
 				return {
 					anchorLat: res.data.data[0].latitude,
