@@ -12,6 +12,7 @@ import findFastestRoute from "./routes/findFastestRoute";
 import trackRoute from "./routes/trackRoute";
 import token from "./routes/token";
 import seed from "./routes/seed";
+import history from "./routes/history";
 const debug = dbg("http");
 const app = express();
 const { json } = express;
@@ -30,7 +31,8 @@ app.use(
 	bookRoute,
 	token,
 	trackRoute,
-	seed
+	seed,
+	history
 );
 const server = http.createServer(app);
 server.listen(config.PORT, config.HOST_NAME, () => {
