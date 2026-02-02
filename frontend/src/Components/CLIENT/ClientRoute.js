@@ -15,8 +15,11 @@ function ClientRoute() {
 	const auth = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 	useEffect(() => {
-		//if(auth.checkToken )
-		if (auth.checkToken && !(auth.isauth && auth.type === "client")) {
+		// Allow access to login and signup pages without auth
+		const publicRoutes = ["/client/login", "/client/signup"];
+		const isPublicRoute = publicRoutes.some(path => window.location.pathname.includes(path));
+
+		if (auth.checkToken && !isPublicRoute && !(auth.isauth && auth.type === "client")) {
 			navigate("/");
 		}
 	}, [auth]);
