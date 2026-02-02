@@ -165,32 +165,33 @@ function Signup(props) {
               </div>
               <Modal show={openPopup} onHide={handleClose}>
                 <Modal.Header closeButton className='modal-header'>
-                  <Modal.Body className='modal-body'>
-                    <div className='row'>
-                      <label style={{ color: "black", fontSize: "30px" }}>
-                        Enter OTP
-                      </label>
-                      <input
-                        type='text'
-                        value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                      />
-                    </div>
-                    <div className='row'>
-                      <label style={{ color: "black" }}>
-                        OTP sent to phone number {phone}
-                      </label>
-                    </div>
-                    <div id='button' class='row'>
-                      <button
-                        style={{ width: "45%", fontSize: "15px" }}
-                        onClick={handleOTPSubmit}
-                      >
-                        Submit
-                      </button>
-                    </div>
-                  </Modal.Body>
+                  <Modal.Title>Enter OTP</Modal.Title>
                 </Modal.Header>
+                <Modal.Body className='modal-body'>
+                  <div className='row'>
+                    <label style={{ color: "black", fontSize: "30px" }}>
+                      Enter OTP
+                    </label>
+                    <input
+                      type='text'
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                    />
+                  </div>
+                  <div className='row'>
+                    <label style={{ color: "black" }}>
+                      OTP sent to phone number {phone}
+                    </label>
+                  </div>
+                  <div id='button' class='row'>
+                    <button
+                      style={{ width: "45%", fontSize: "15px" }}
+                      onClick={handleOTPSubmit}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Modal.Body>
               </Modal>
               {/* <Button block size='lg' type='submit' disabled={!validateForm()}>
                 Submit
