@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, createRef } from 'react';
+import { Link } from 'react-router-dom';
 import '../../styles/navigation.css';
 
 const items = [
@@ -72,7 +73,7 @@ const Menu = ({ items }) => {
   return (
     <div ref={$root} className='menu'>
       {items.map((item, index) => (
-        <a
+        <Link
           key={item.name}
           ref={$items.current[index]}
           style={{ color: item.color, textDecoration: 'none' }}
@@ -80,10 +81,10 @@ const Menu = ({ items }) => {
           onMouseEnter={() => {
             setActive(index);
           }}
-          href={item.href}
+          to={item.href}
         >
           {item.name}
-        </a>
+        </Link>
       ))}
       <div ref={$indicator1} className='indicator' />
       <div ref={$indicator2} className='indicator' />
