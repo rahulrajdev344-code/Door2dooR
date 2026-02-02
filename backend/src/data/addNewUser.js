@@ -24,9 +24,10 @@ const addNewUser = async (user) => {
 				reject({ success: false, message: "Error In connection", error: err });
 				return;
 			}
+			const tableName = user.type === "client" ? "user" : user.type;
 			connection.query(
 				"INSERT INTO ?? set ?",
-				[user.type, values],
+				[tableName, values],
 				(err, result) => {
 					connection.release();
 					if (err) {

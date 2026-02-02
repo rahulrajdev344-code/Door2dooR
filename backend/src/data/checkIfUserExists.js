@@ -9,9 +9,10 @@ const checkIfUserExists = ({ type, phone }) => {
 				reject({ success: false, message: "Error In connection", error: err });
 				return;
 			}
+			const tableName = type === "client" ? "user" : type;
 			connection.query(
 				"SELECT * FROM ?? WHERE phone = ?",
-				[type, phone],
+				[tableName, phone],
 				(err, result) => {
 					connection.release();
 					if (err) {

@@ -16,8 +16,8 @@ const loginService = async ({ type, phone, password }) => {
 			});
 		})
 		.then((response) => {
-			if (type == "client") user_id = response.data.user.client_id;
-			else if (type == "admin") user_id = response.data.user.admin_id;
+			// Database uses 'id' column for both user (client) and admin tables
+			user_id = response.data.user.id;
 			return checkPassword(password, response.data.user.password);
 		})
 		.then((response) => {
