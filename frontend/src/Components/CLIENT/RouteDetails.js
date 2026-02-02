@@ -14,6 +14,7 @@ import moment from "moment";
 function RouteDetails(props) {
 	const auth = useSelector((state) => state.auth);
 	const location = useLocation();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [tableData, setTableData] = useState([]);
 
@@ -51,7 +52,12 @@ function RouteDetails(props) {
 	const handleBook = () => {
 		if (routeDetails) {
 			bookRouteAPI({ token: auth.token, path: routeDetails }).then((response) => {
-				console.log(response);
+				if (response && response.success) {
+					alert("Route Booked Successfully! You can track it now.");
+					navigate("/client/track");
+				} else {
+					alert("Booking Failed: " + (response && response.message ? response.message : "Network Error"));
+				}
 			});
 		}
 	};
