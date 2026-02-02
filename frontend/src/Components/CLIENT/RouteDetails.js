@@ -13,16 +13,16 @@ import moment from "moment";
 function RouteDetails(props) {
 	const auth = useSelector((state) => state.auth);
 	const location = useLocation();
-
-	// Safety check to prevent crash on refresh
-	if (!location.state || !location.state.data) {
-		return <div className="p-4 text-center">No route data available. Please search again.</div>;
-	}
-
-	const routeDetails = location.state.data[location.state.idx - 1];
-	const markers = location.state.markersGrp[location.state.idx - 1] || [];
 	const dispatch = useDispatch();
 	const [tableData, setTableData] = useState([]);
+
+	const routeDetails = location.state?.data?.[location.state?.idx - 1];
+	const markers = location.state?.markersGrp?.[location.state?.idx - 1] || [];
+
+	// Safety check to prevent crash on refresh
+	if (!location.state || !routeDetails) {
+		return <div className="p-4 text-center">No route data available. Please search again.</div>;
+	}
 
 	console.log(routeDetails, location.state.idx);
 	console.log(markers);
