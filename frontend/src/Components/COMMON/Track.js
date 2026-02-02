@@ -23,12 +23,17 @@ function Track() {
 
 	const getCoordinates = async (pincode) => {
 		try {
-			const res = await axios.get(config.pincodeurl + pincode);
+			const res = await axios.get(config.pincodeurl + pincode + ", India");
 			if (res.data && res.data.data && res.data.data.length > 0) {
 				return {
 					anchorLat: res.data.data[0].latitude,
 					anchorLng: res.data.data[0].longitude
 				};
+			} else {
+				// Fallback attempt without country if strict match fails?
+				// Or try searching by City Name if available?
+				// For now, just log.
+				console.warn("No results for pincode:", pincode);
 			}
 		} catch (e) {
 			console.error("Geocoding failed for", pincode);
