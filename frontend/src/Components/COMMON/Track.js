@@ -6,25 +6,8 @@ import trackRoutesAPI from "../../api/CLIENT/trackRoutesAPI";
 import DataTable from "./DataTable";
 import TrackColumn from "./TrackColumn";
 import { useLocation } from "react-router";
-
-const temp = [
-	{
-		anchorLat: 28.879,
-		anchorLng: 77.6997,
-	},
-	{
-		anchorLat: 27.9,
-		anchorLng: 77.6998,
-	},
-	{
-		anchorLat: 26.879,
-		anchorLng: 77.5997,
-	},
-	{
-		anchorLat: 28.079,
-		anchorLng: 77.6897,
-	},
-];
+import axios from "axios";
+import config from "../../config/config";
 
 function Track() {
 	const auth = useSelector((state) => state.auth);
@@ -32,21 +15,36 @@ function Track() {
 	const dispatch = useDispatch();
 	const [tableData, setTableData] = useState([]);
 	const location = useLocation();
+	const [markers, setMarkers] = useState([]);
 
 	const validateForm = () => {
 		return trackID.length > 0;
 	};
 
-	const [markers, setMarkers] = useState(temp);
+	const getCoordinates = async (pincode) => {
+		try {
+			const res = await axios.get(config.pincodeurl + pincode);
+			if (res.data && res.data.data && res.data.data.length > 0) {
+				return {
+					anchorLat: res.data.data[0].latitude,
+					anchorLng: res.data.data[0].longitude
+				};
+			}
+		} catch (e) {
+			console.error("Geocoding failed for", pincode);
+		}
+		return null;
+	}
 
 	const fetchTrackData = (id) => {
 		trackRoutesAPI({
 			token: auth.token,
 			track_id: id,
-		}).then((res) => {
+		}).then(async (res) => {
 			console.log(res.data.trackRoute);
 			var tempData = [];
 			if (res.data.trackRoute) {
+				const pincodes = new Set();
 				for (var i = 0; i < res.data.trackRoute.length; i++) {
 					var tempRow = {};
 					tempRow["srno"] = res.data.trackRoute[i]["pos"];
@@ -60,9 +58,19 @@ function Track() {
 					tempRow["cost"] = res.data.trackRoute[i]["cost"];
 
 					tempData.push(tempRow);
+					pincodes.add(res.data.trackRoute[i]["src_pincode"]);
+					pincodes.add(res.data.trackRoute[i]["dest_pincode"]);
 				}
 				console.log(tempData);
 				setTableData(tempData);
+
+				// Fetch Coordinates for Map
+				const promises = Array.from(pincodes).map(p => getCoordinates(p));
+				const coords = await Promise.all(promises);
+				const validCoords = coords.filter(c => c !== null);
+				if (validCoords.length > 0) {
+					setMarkers(validCoords);
+				}
 			}
 		});
 	}
@@ -108,10 +116,11 @@ function Track() {
 				data={tableData}
 			/>
 			<div style={{ width: "200vw", height: "200vh" }}>
-				<Reactmap markers={markers} defaultLat={28.879} defaultLng={77.6997} />
+				<Reactmap markers={markers} defaultLat={20.5937} defaultLng={78.9629} />
 			</div>
 		</div>
 	);
 }
+// Default Lat/Lng changed to India Center (approx)
 
 export default Track;
