@@ -41,7 +41,10 @@ function Signup(props) {
           setopenPopup(true);
           // history.push("/home");
         } else {
-          const msg = res ? (res.data ? res.data.msg : res.message) : "Unknown Error";
+          let msg = res ? (res.data ? res.data.msg : res.message) : "Unknown Error";
+          if (typeof msg === 'object') {
+            msg = msg.message || JSON.stringify(msg);
+          }
           dispatch(alertAdded({ variant: "danger", message: msg }));
         }
       });
