@@ -11,6 +11,8 @@ function History() {
     const dispatch = useDispatch();
     const [tableData, setTableData] = useState([]);
 
+    const [error, setError] = useState(null);
+
     useEffect(() => {
         dispatch(setLoading({ loading: true }));
         historyAPI(auth.token).then((res) => {
@@ -28,17 +30,23 @@ function History() {
                     track: item.status
                 }));
                 setTableData(formattedData);
+            } else {
+                console.error("History Fetch Error:", res);
+                setError(res.message || "Failed to load history.");
             }
             dispatch(setLoading({ loading: false }));
         });
     }, [auth.token, dispatch]);
 
     return (
-        <DataTable
-            columns={historytablecolumns}
-            data={tableData}
-            onclicklink={"/client/track"}
-        />
+        <div>
+            {error && <div className="alert alert-danger">{error}</div>}
+            <DataTable
+                columns={historytablecolumns}
+                data={tableData}
+                onclicklink={"/client/track"}
+            />
+        </div>
     );
 }
 

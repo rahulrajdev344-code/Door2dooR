@@ -3,7 +3,7 @@ import config from "../../config/config";
 
 const historyAPI = async (token) => {
     return await axios
-        .get(config.baseUrl + "/api/history", {
+        .get(config.baseUrl + "/history", {
             headers: { Authorization: "Bearer " + token },
         })
         .then((res) => {
