@@ -25,7 +25,7 @@
 		"js-priority-queue": "^0.1.5",
 		"jsonwebtoken": "^8.5.1",
 		"moment": "^2.29.3",
-		"mysql": "^2.18.1",
+		"mysql2": "^2.3.3",
 		"twilio": "^3.76.1"
 	},
 	"devDependencies": {

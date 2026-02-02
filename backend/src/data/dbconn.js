@@ -1,5 +1,5 @@
 import config from "../config";
-import mysql from "mysql";
+import mysql from "mysql2";
 import dbg from "debug";
 const debug = dbg("database");
 const pool = mysql.createPool({
